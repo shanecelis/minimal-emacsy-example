@@ -156,6 +156,8 @@ let's pass some input to Emacsy.
 @d Functions @{@%
 void keyboard_func(unsigned char key, 
                    int x, int y) {
+ if (key == 'q')
+    exit(0);
   /* Send the key event to Emacsy 
      (not processed yet). */
   emacsy_key_event(glutGetModifiers(), key);
@@ -343,8 +345,6 @@ void emacsy_key_event(int modifier_key_flags,
     counter++;
   else if (key_code == '-')
     counter--;
-  else if (key_code == 'q')
-    exit(0);
 }
 
 void emacsy_tick() { }

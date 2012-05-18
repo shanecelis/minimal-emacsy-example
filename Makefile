@@ -3,12 +3,12 @@ CC = cc
 CPPFLAGS = -g  $(shell PKG_CONFIG_PATH=/usr/local/lib/pkgconfig pkg-config guile-2.0 --cflags)
 LDFLAGS =  -framework OpenGL -framework GLUT $(shell PKG_CONFIG_PATH=/usr/local/lib/pkgconfig pkg-config guile-2.0 --libs)
 
-TARGET = hello
+TARGET = minimal-emacsy-example
 VERSION = 0.1
 
-OBJS = hello.o
+OBJS = hello-emacsy.o  emacsy-stub.o
 
-SRCS = hello.c
+SRCS = hello-emacsy.c
 
 HDRS = 
 
@@ -21,8 +21,8 @@ DIST = Makefile README hello.w $(TARGET)doc.tex $(SRCS) $(HDRS) $(BIBS) $(STYS)
 %.tex: %.w
 	nuweb -lr $<
 
-%: %.tex
-	latex2html -split 0 $<
+# %: %.tex
+# 	latex2html -split 0 $<
 
 %.hw: %.w
 	cp $< $@
@@ -44,7 +44,7 @@ tar: $(TARGET)doc.tex
 	tar -zcf $(TARGET)-$(VERSION).tar.gz $(TARGET)-$(VERSION)
 	rm -rf $(TARGET)-$(VERSION)
 
-distribution: all tar hello.pdf 
+distribution: all tar $(TARGET).pdf
 
 $(TARGET)doc.tex: $(TARGET).tex
 	sed -e '/^\\ifshowcode$$/,/^\\fi$$/d' $< > $@
@@ -81,11 +81,9 @@ lint:
 
 $(OBJS): 
 
-$(TARGET): $(OBJS)
-	$(CC) -o $(TARGET) $(OBJS)
+#$(TARGET): $(OBJS)
+hello-emacsy: $(OBJS)
 
-hello-emacsy: hello-emacsy.o emacsy-stub.o
-
-upload: hello.pdf
-	cp hello.pdf minimal-emacsy-example.pdf
+upload: hello-emacsy.pdf
+	cp hello-emacsy.pdf minimal-emacsy-example.pdf
 	scp minimal-emacsy-example.pdf hello-emacsy.c .hello-emacsy emacsy-stub.c emacsy.h gnufoo.org:www/emacsy
