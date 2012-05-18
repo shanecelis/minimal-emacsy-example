@@ -21,8 +21,8 @@ DIST = Makefile README hello.w $(TARGET)doc.tex $(SRCS) $(HDRS) $(BIBS) $(STYS)
 %.tex: %.w
 	nuweb -lr $<
 
-# %: %.tex
-# 	latex2html -split 0 $<
+%: %.tex
+	latex2html -split 0 $<
 
 %.hw: %.w
 	cp $< $@
@@ -37,6 +37,7 @@ all:
 	$(MAKE) $(TARGET).tex
 	$(MAKE) $(TARGET).pdf
 	$(MAKE) hello-emacsy
+#	$(MAKE) $(TARGET)
 
 tar: $(TARGET)doc.tex
 	mkdir $(TARGET)-$(VERSION)

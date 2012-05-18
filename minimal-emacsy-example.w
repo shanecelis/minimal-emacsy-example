@@ -141,11 +141,10 @@ int main(int argc, char *argv[]) {
 
 \begin{figure} 
   \centering
-  \includegraphics[scale=0.4]{../minimal-emacsy-example.pdf} 
-  \caption[Short Label]{\label{../minimal-emacsy-example.pdf}Emacsy
+  \includegraphics[scale=0.4]{minimal-emacsy-figure} 
+  \caption[Short Label]{\label{minimal-emacsy-figure}Emacsy
     integrated into the simplest application ever!}
 \end{figure} 
-
 
 \section{Runloop Interaction}
 
@@ -238,7 +237,7 @@ bind them to keys by changing our config file \verb|.hello-emacsy|.
  (set-counter! (1- (get-counter))))
 
 (define-key global-map 
- (kbd "+") 'incr-counter)
+ (kbd "=") 'incr-counter)
 (define-key global-map 
  (kbd "-") 'decr-counter)@%
 @|@}
@@ -368,5 +367,4 @@ char *emacsy_mode_line() {
 %\end{multicols}
 
 %% 
-
 \end{document}
