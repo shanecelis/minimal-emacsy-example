@@ -1,6 +1,7 @@
 CC = cc
 
-CFLAGS = -g
+CPPFLAGS = -g  $(shell PKG_CONFIG_PATH=/usr/local/lib/pkgconfig pkg-config guile-2.0 --cflags)
+LDFLAGS =  -framework OpenGL -framework GLUT $(shell PKG_CONFIG_PATH=/usr/local/lib/pkgconfig pkg-config guile-2.0 --libs)
 
 TARGET = hello
 VERSION = 0.1
@@ -18,7 +19,7 @@ STYS =
 DIST = Makefile README hello.w $(TARGET)doc.tex $(SRCS) $(HDRS) $(BIBS) $(STYS)
 
 %.tex: %.w
-	nuweb -r $<
+	nuweb -lr $<
 
 %: %.tex
 	latex2html -split 0 $<
@@ -30,12 +31,12 @@ DIST = Makefile README hello.w $(TARGET)doc.tex $(SRCS) $(HDRS) $(BIBS) $(STYS)
 	latex $<
 
 %.pdf: %.tex
-	pdflatex $<
+	pdflatex -shell-escape $<
 
 all:
 	$(MAKE) $(TARGET).tex
-	$(MAKE) $(TARGET)
 	$(MAKE) $(TARGET).pdf
+	$(MAKE) hello-emacsy
 
 tar: $(TARGET)doc.tex
 	mkdir $(TARGET)-$(VERSION)
@@ -82,3 +83,9 @@ $(OBJS):
 
 $(TARGET): $(OBJS)
 	$(CC) -o $(TARGET) $(OBJS)
+
+hello-emacsy: hello-emacsy.o emacsy-stub.o
+
+upload: hello.pdf
+	cp hello.pdf minimal-emacsy-example.pdf
+	scp minimal-emacsy-example.pdf hello-emacsy.c .hello-emacsy emacsy-stub.c emacsy.h gnufoo.org:www/emacsy
