@@ -1,0 +1,15 @@
+
+(define-interactive (incr-counter)
+ (set-counter! (1+ (get-counter))))
+
+(define-interactive (decr-counter)
+ (set-counter! (1- (get-counter))))
+
+(define-key global-map 
+ (kbd "=") 'incr-counter)
+(define-key global-map 
+ (kbd "-") 'decr-counter)
+
+(define-interactive (change-counter) 
+ (set-counter! 
+  (read-from-minibuffer "New counter value: ")))
